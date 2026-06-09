@@ -1,0 +1,61 @@
+# Batch C6: Timeline / Calendar
+
+With Global Search complete and the Content/Platform backend fully hardened, the data foundation is perfectly stable to support the Timeline module.
+
+The goal of this batch is to provide a global birds-eye view of all scheduled and uploaded content across all clients and platforms.
+
+## User Review Required
+
+> [!IMPORTANT]
+> The Timeline requires deciding on a UI approach. Please review the options in the Open Questions below before we proceed.
+
+## Open Questions
+
+> [!WARNING]
+> 1. **UI Layout Strategy:** Do you prefer a **Monthly Calendar Grid** (like Google Calendar, showing days as boxes), or a **Chronological Feed** (a vertical list grouped by Day/Week)? A chronological feed is usually better for mobile and dense content, while a grid is better for high-level planning.
+> 2. **External Libraries:** If we go with a Calendar Grid, would you like me to install a library like `react-big-calendar` or `fullcalendar`? (I recommend keeping it dependency-free and building a vertical Chronological Feed for V1).
+> 3. **Filtering:** I plan to add filters at the top of the Timeline for **Client**, **Platform**, and **Status**. Are there any other filters you'd find critical?
+
+## Proposed Changes
+
+### Backend
+
+#### [NEW] `backend/src/controllers/timelineController.js`
+- Create `getTimelineEvents(req, res)`
+- Queries `Content.find({ 'platforms.scheduledDate': { $exists: true, $ne: null } })` (or uploadedDate).
+- Unwinds the platforms array so each platform post acts as an individual "Event".
+- Supports `?clientId=`, `?platformId=`, `?status=` query filters.
+- Sorts chronologically.
+
+#### [NEW] `backend/src/routes/timeline.js`
+- Standard router for `/timeline`.
+
+#### [MODIFY] `backend/src/server.js`
+- Uncomment and mount: `app.use('/api/v1/timeline', require('./routes/timeline'));`
+
+### Frontend
+
+#### [MODIFY] `frontend/src/api/index.js`
+- Add `timelineApi.getEvents(filters)`
+
+#### [NEW] `frontend/src/pages/TimelinePage.jsx`
+- The main hub for the timeline.
+- Includes a Top Bar with Filter Dropdowns (Client, Platform, Status).
+- Displays the events (either as a Grid or a Feed, pending your decision).
+- Event Cards will show:
+  - Scheduled Date & Time
+  - Content Title & Type
+  - Client Name
+  - Platform Icon & Status Badge
+- Clicking an event routes to `/content/:id`.
+
+## Verification Plan
+
+### Automated Tests
+- No automated tests for V1.
+
+### Manual Verification
+- Schedule content in the future and verify it appears correctly in the timeline.
+- Change the status to "Uploaded" and verify the badge updates.
+- Verify filtering by a specific client hides all other clients' events.
+- Verify chronological sorting logic.

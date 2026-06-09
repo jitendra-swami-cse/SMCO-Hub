@@ -1,0 +1,55 @@
+# Batch C7: Dashboard Enhancements & Polish
+
+With the core workflow features (Clients, Content, Platforms, Timeline, Search) fully operational, it is time to pivot to the high-level operational tools for the admin.
+
+The Dashboard is currently just a placeholder. We will transform it into an actionable command center that surfaces critical metrics, unhandled alerts, and system health.
+
+## User Review Required
+
+> [!IMPORTANT]
+> Please review the proposed metrics for the Dashboard. As the admin, which of these data points is most critical to your daily workflow?
+
+## Open Questions
+
+> [!WARNING]
+> 1. **Key Metrics:** I propose showing: Total Active Clients, Content Awaiting Approval, Missed Posts (from Timeline logic), and Total Storage Used. Do you need any other immediate KPIs?
+> 2. **Storage Monitoring:** Do you want a dedicated "Storage Health" widget on the Dashboard, or should we keep that entirely inside the future `/storage` page and only show a quick summary on the Dashboard?
+> 3. **Quick Actions:** Would you like "Quick Action" buttons on the Dashboard (e.g. "Add Client", "Log Received Content") for faster data entry?
+
+## Proposed Changes
+
+### Backend: Dashboard API
+
+#### [NEW] `backend/src/controllers/dashboardController.js`
+- Create `getDashboardStats()`
+- Pulls aggregated metrics:
+  - `Client.countDocuments({ status: 'Active' })`
+  - `Content.countDocuments({ globalStatus: 'Received' })` (or 'Pending')
+  - `Content` missing schedules logic.
+- Calculates storage directory size using `fs.promises.readdir` or similar.
+
+#### [NEW] `backend/src/routes/dashboard.js`
+- Mount `/api/v1/dashboard/stats`
+
+#### [MODIFY] `backend/src/server.js`
+- Mount: `app.use('/api/v1/dashboard', require('./routes/dashboard'));`
+
+### Frontend: Dashboard Page
+
+#### [MODIFY] `frontend/src/api/index.js`
+- Add `dashboardApi.getStats()`
+
+#### [MODIFY] `frontend/src/pages/DashboardPage.jsx` (replace placeholder)
+- Use a Grid layout for KPI Cards.
+- Implement an "Action Needed" section (pulling in Missed Posts and Unapproved Content).
+- Add quick-navigation links to those specific sections in the app.
+
+## Verification Plan
+
+### Automated Tests
+- None.
+
+### Manual Verification
+- Validate the reported storage size matches the OS `fs` size.
+- Ensure KPI counts perfectly match the individual pages' list lengths.
+- Verify quick actions open the correct modals/pages.

@@ -1,0 +1,56 @@
+# Client CRUD Tasks
+
+- `[x]` **Batch 1: Foundation (Backend + API)**
+  - `[x]` Create `clientController.js` (getAll, getById, create, update, delete)
+  - `[x]` Create `routes/clients.js`
+  - `[x]` Mount route in `server.js`
+  - `[x]` Add `clientsApi` to `frontend/src/api/index.js`
+
+- `[x]` **Batch 2: Foundation (Frontend UI)**
+  - `[x]` Build `ClientsPage.jsx` (List view with columns)
+  - `[x]` Build `ClientFormPage.jsx` (Create/Edit form)
+  - `[x]` Update `App.jsx` routing and `AppLayout.jsx` sidebar link
+
+- `[x]` **Batch 3: Client Details Hub**
+  - `[x]` Build `ClientDetailsPage.jsx` layout
+  - `[x]` Build `AccountModal.jsx`
+  - `[x]` Build `NoteModal.jsx`
+  - `[x]` Add endpoints for Accounts/Notes to `clientController.js`
+  - `[x]` Add Accounts/Notes to `routes/clients.js`
+  - `[x]` Update API index in frontend
+
+- `[x]` **Batch C1: Content Schema & Backend Foundation**
+  - `[x]` Update `Content.js` schema (types, status enum)
+  - `[x]` Add name validation to Client and Platform controllers
+  - `[x]` Create `contentController.js` (CRUD, platforms)
+  - `[x]` Create `routes/content.js`
+  - `[x]` Update frontend `api/index.js`
+  - `[x]` Add `/storage` static route to `server.js`
+
+- `[x]` **Batch C2: File Upload System**
+  - `[x]` Create `storageUtils.js` (sanitize, collision protection)
+  - `[x]` Implement `uploadFile` endpoint with Multer (lazy folder creation)
+  - `[x]` Implement `deleteFile` (disk + DB sync, empty folder cleanup)
+  - `[x]` Implement `getFiles` endpoint
+  - `[x]` Wire client rename logic to safe folder renaming
+
+- `[x]` **Batch C3: Content List Page**
+  - `[x]` Create `ContentPage.jsx` (List/Table view)
+  - `[x]` Create `ContentFormPage.jsx` (Create/Edit Content)
+  - `[x]` Update routing in `App.jsx`
+
+- `[x]` **Batch C4: Content Details Hub**
+  - `[x]` Create `ContentDetailsPage.jsx`
+  - `[x]` Implement Media Files upload/deletion UI
+  - `[x]` Implement Publishing Matrix UI
+
+- `[x]` **Batch C5: Publishing Matrix Refinement (Hardening)**
+  - `[x]` Empty-platform status logic (Deterministic)
+  - `[x]` `uploadedDate` clearing
+  - `[x]` Platform status validation
+  - `[x]` `scheduledDate` validation
+  - `[x]` Platform existence validation
+
+- `[ ]` **Batch C5.5: Global Search**
+  - `[ ]` Create Global Search backend endpoint
+  - `[ ]` Create Search UI overlay/page

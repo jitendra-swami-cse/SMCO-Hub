@@ -1,0 +1,6 @@
+Prompt 1 - I am going to create a MERN project for "social media management", i have a group of clients who wants me to manage their all social media profiles and other (like their Instagram, facebook, youtube channel, pinterest accounts etc.) let me explain you what i have and what i want - 
+I have clients fullname, address, dob and other details,
+Until now they don't have any accounts (even don't have gmail accounts, i will teach them how to create gmail and other accounts but this is not related to project)
+
+I want a well designed user interface to manage all of this,
+now first help me to create the PRD of this project.

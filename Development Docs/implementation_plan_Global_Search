@@ -1,0 +1,53 @@
+# Batch C5.5: Global Search
+
+As requested, before moving on to the Timeline (C6), we will implement Global Search. This is a critical foundation to build before the app scales, and having it in place early ensures that all future data structures (like Timeline) can easily hook into it.
+
+## User Review Required
+
+> [!IMPORTANT]
+> Please review the architecture for the global search endpoint and UI. Since this is our first cross-collection feature, ensuring the data returned matches your expectations is important.
+
+## Open Questions
+
+> [!WARNING]
+> 1. **UI Location:** I plan to build a dedicated `/search` page with a full-page results view, and place the search input box in the top header or sidebar of `AppLayout.jsx` so it's accessible everywhere. Does this match your vision, or do you prefer a modal/overlay?
+> 2. **Search Scope:** I plan to search **Clients** (Name, Company, Email, Phone) and **Content** (Title, Description, Type). Should it also search inside Client Notes or Content Platforms? (I recommend keeping it to top-level fields for V1 speed).
+
+## Proposed Changes
+
+### Backend: Search API
+
+#### [NEW] `backend/src/controllers/searchController.js`
+- Create a `globalSearch` function that accepts `?q=query`.
+- Run parallel MongoDB queries using `$regex` (case-insensitive) across the `Client` and `Content` collections.
+- Aggregate and return a unified response: `{ success: true, data: { clients: [...], content: [...] } }`.
+
+#### [NEW] `backend/src/routes/search.js`
+- Standard Express router for the `/search` endpoint.
+
+#### [MODIFY] `backend/src/server.js`
+- Mount the search route: `app.use('/api/v1/search', require('./routes/search'));`
+
+### Frontend: UI & Integration
+
+#### [MODIFY] `frontend/src/api/index.js`
+- Add `searchApi.query(q)` to fetch results.
+
+#### [MODIFY] `frontend/src/layouts/AppLayout.jsx`
+- Add a global search input field (e.g., in a top header bar or the sidebar navigation).
+- Submitting a query will navigate the user to `/search?q=...`.
+
+#### [NEW] `frontend/src/pages/SearchPage.jsx`
+- A dedicated page to display results.
+- Organizes results into clear sections: **Clients** and **Content**.
+- Clicking a result routes the user directly to the respective Details page (`/clients/:id` or `/content/:id`).
+
+## Verification Plan
+
+### Automated Tests
+- None currently configured, but manual testing will verify all scenarios.
+
+### Manual Verification
+- Test partial match searches (e.g., "Insta" to find "Instagram Post" content).
+- Test cross-entity searches (e.g., searching a client's company name).
+- Verify navigation from search results directly to the correct details page.

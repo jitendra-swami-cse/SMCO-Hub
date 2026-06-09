@@ -1,0 +1,42 @@
+# Batch C8: Supporting Systems (Storage, Recovery, Backups)
+
+With the core app and Operations Dashboard complete, the final phase of V1 is to build the safety net and data management infrastructure: Storage Health, Recycle Bin, Data Backups, and Monthly Snapshots.
+
+## User Review Required
+
+> [!IMPORTANT]
+> Please review the architecture for the Supporting Systems. These features deal with hard data deletion and local file system access, so ensuring they meet your safety standards is critical.
+
+## Proposed Changes
+
+### C8.1 Storage Overview
+- **Backend:** Create `storageController.js` returning total storage used, per-client storage usage, file counts, and folder counts.
+- **Frontend:** Build `/storage` page containing the detailed breakdown of the storage usage. Include sorting by size for clients and content.
+
+### C8.2 Missing Files Report
+- **Backend:** Add endpoint to scan MongoDB file paths (in `content.files` or similar) against the physical file system to verify existence.
+- **Frontend:** Add a section in `/storage` to show a warning list of missing files, showing affected content and client. Include a "Bulk Rescan" button and allow users to manually fix/resolve the missing links. (Never auto-delete).
+
+### C8.3 Backup Creation & C8.4 Restore
+- **Backend:** Create endpoints to generate a backup and restore from a backup.
+  - **Backup Includes:** MongoDB data (Settings, Clients, Content, Tags, Categories, Platforms, Activity logs, Snapshots). Exported as JSON inside a `.zip`.
+  - **Backup Excludes:** Media files and the `storage/` directory.
+- **Frontend:** Add a "Backups" tab in Settings. Allow creating, downloading, and restoring backups from a `.zip` file.
+
+### C8.5 Recycle Bin UI
+- **Backend:** Update endpoints to allow restoring items (clearing the `deletedAt` flag) or hard-deleting them permanently.
+- **Frontend:** Create a "Recycle Bin" view showing deleted Clients and Content. 
+  - Show "Days Remaining" (calculated based on `deletedAt` + 30 days).
+  - Provide "Restore" and "Delete Permanently" actions.
+
+### C8.6 Monthly Snapshots
+- **Backend:** Create endpoint to manually generate a `Snapshot` document (using the existing `Snapshot.js` model) that records current active clients, total content, and storage size.
+- **Frontend:** Render a historical trend chart/table on the `/settings` or `/dashboard` page. Include a "Generate Snapshot" button for manual generation (no cron for V1).
+
+## Implementation Order
+1. C8.1 Storage Overview
+2. C8.2 Missing Files Report
+3. C8.3 Backup Creation
+4. C8.4 Restore
+5. C8.5 Recycle Bin UI
+6. C8.6 Monthly Snapshots

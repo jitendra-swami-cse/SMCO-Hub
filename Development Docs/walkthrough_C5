@@ -1,0 +1,23 @@
+# Walkthrough: Global Search (Batch C5.5)
+
+The Global Search feature has been successfully implemented according to your approved specifications.
+
+## What was built:
+
+1. **Backend Search API** (`/api/v1/search?q=...`)
+   - Performs parallel `$regex` queries (case-insensitive) across the `Client`, `Content`, and Account sub-documents.
+   - Searches newly added Category and Tag Names via ID lookups.
+   - Accurately groups the response into `{ clients: [], content: [], accounts: [] }` arrays, capped at 10-20 results per entity to maintain UI speed.
+
+2. **Top Header Search Bar**
+   - Replaced the previous sidebar link with a persistent search bar in the top header.
+   - Equipped with a **300ms debounce** to prevent API thrashing while typing.
+   - Enforces a minimum **2-character limit** before triggering navigation and searching.
+
+3. **Dedicated Results Page** (`/search`)
+   - Shows total result counts in section headers.
+   - Implements the specific **Glass Card** layouts requested (e.g. Account cards showing `@username` and the associated `Client Name`).
+   - Clicking any result correctly routes the user directly to `/clients/:id` or `/content/:id`.
+
+## Status
+Batch C5.5 is fully complete. The data foundation is now perfectly stable and fully queryable, making it an excellent time to proceed to **C6: Timeline / Calendar**.

@@ -1,0 +1,148 @@
+# Batch C8 Walkthrough — Supporting Systems
+
+## Summary
+
+Batch C8 implements the **Storage, Recovery, and Backup** supporting systems. All 6 sub-features plus 2 bonus items (Recycle Bin settings link, System Information page) are complete.
+
+---
+
+## C8.1 — Storage Overview
+
+**Backend:** [storageController.js](file:///d:/JITU/Ideas and projects/Identity Management/backend/src/controllers/storageController.js)
+- `GET /api/v1/storage/overview` — Single API that returns:
+  - Total storage size (bytes), file count, folder count
+  - Top 10 largest clients (by actual folder size on disk)
+  - Top 20 largest content records (by tracked `mediaFiles` size)
+  - Missing files report
+  - Health metrics (recycle bin count, last backup date)
+
+**Frontend:** [StoragePage.jsx](file:///d:/JITU/Ideas and projects/Identity Management/frontend/src/pages/StoragePage.jsx)
+- KPI row: Total Storage Used, Tracked Files, Folders
+- Storage Health widget: Missing Files count, Recycle Bin count (links to `/settings/recycle-bin`), Last Backup date (links to `/settings/backups`)
+- Top 10 Clients table with deep-links to client detail
+- Top 20 Content table with deep-links to content detail
+
+---
+
+## C8.2 — Missing Files Report
+
+Integrated into the same Storage Overview endpoint and page.
+- Scans every `Content.mediaFiles[].path` against the physical file system
+- Displays: Client name, Content title, Expected Path (monospace)
+- Action: "Remove Reference" button removes the DB entry only (warning-only, never auto-delete)
+
+---
+
+## C8.3 — Backup Creation
+
+**Backend:** [backupController.js](file:///d:/JITU/Ideas and projects/Identity Management/backend/src/controllers/backupController.js)
+- `GET /api/v1/backups/export` — Downloads a ZIP containing:
+  - `metadata.json` — Created timestamp, app version, record counts
+  - `backup.json` — All collections (Clients, Content, Categories, Tags, Platforms, ActivityLogs, Snapshots)
+  - **No media files** — Excludes the `storage/` folder per architectural decision
+- Logs export to `ActivityLog` with type `"Backup Export"`
+
+**Frontend:** [BackupsPage.jsx](file:///d:/JITU/Ideas and projects/Identity Management/frontend/src/pages/BackupsPage.jsx)
+- "Download Backup (ZIP)" button triggers blob download
+
+---
+
+## C8.4 — Restore System
+
+Two-step confirmation flow:
+
+1. **Upload ZIP** → `POST /api/v1/backups/restore/summary` — Parses ZIP in memory, returns `metadata.json` summary
+2. **Review Summary** → User sees client/content counts and backup date
+3. **Confirm** → `POST /api/v1/backups/restore/confirm` — Wipes all collections, inserts backup data, logs restore
+
+Uses `multer` memory storage so the ZIP never touches disk.
+
+---
+
+## C8.5 — Recycle Bin UI
+
+**Backend:** [recycleBinController.js](file:///d:/JITU/Ideas and projects/Identity Management/backend/src/controllers/recycleBinController.js)
+- `GET /api/v1/recycle-bin` — Finds all Clients and Content with `deletedAt` set
+- `POST /api/v1/recycle-bin/restore` — Clears `deletedAt`, resets status
+- `POST /api/v1/recycle-bin/delete` — Hard deletes from DB
+
+**Model changes:** [Client.js](file:///d:/JITU/Ideas and projects/Identity Management/backend/src/models/Client.js#L78) — Added `deletedAt` field and TTL index (30 days auto-purge, matching Content model)
+
+**Frontend:** [RecycleBinPage.jsx](file:///d:/JITU/Ideas and projects/Identity Management/frontend/src/pages/RecycleBinPage.jsx)
+- Table with Type badge, Name, "Days Remaining" countdown
+- Days ≤7 highlighted in red
+- Restore and Delete Permanently buttons
+- Empty state with icon
+
+---
+
+## C8.6 — Monthly Snapshots
+
+**Backend:** [snapshotController.js](file:///d:/JITU/Ideas and projects/Identity Management/backend/src/controllers/snapshotController.js)
+- `GET /api/v1/snapshots` — Returns all snapshots sorted by `createdAt` desc
+- `POST /api/v1/snapshots/generate` — Creates/updates snapshot for current month using upsert on `month` field
+  - Records: `totalClients`, `activeClients`, `totalContent`, `uploadedContent`, `pendingContent`, `storageUsed`
+
+**Frontend:** Integrated into [BackupsPage.jsx](file:///d:/JITU/Ideas and projects/Identity Management/frontend/src/pages/BackupsPage.jsx)
+- "Generate Snapshot" button
+- Historical table: Month, Active Clients, Total Content, Storage Used (formatted)
+
+---
+
+## Bonus: Settings Updates
+
+**[SettingsPage.jsx](file:///d:/JITU/Ideas and projects/Identity Management/frontend/src/pages/SettingsPage.jsx)** now links to:
+- 📂 Categories
+- 📱 Platforms
+- 🏷️ Tags
+- 💾 Backups & Snapshots (`/settings/backups`)
+- 🗑️ Recycle Bin (`/settings/recycle-bin`)
+- ℹ️ System Information (`/settings/system`)
+
+**[SystemInfoPage.jsx](file:///d:/JITU/Ideas and projects/Identity Management/frontend/src/pages/SystemInfoPage.jsx)** — Displays app version, DB connection status, environment, and storage path.
+
+---
+
+## Routing
+
+**[App.jsx](file:///d:/JITU/Ideas and projects/Identity Management/frontend/src/App.jsx)** — All new routes registered:
+- `/storage` → StoragePage
+- `/settings/backups` → BackupsPage
+- `/settings/recycle-bin` → RecycleBinPage
+- `/settings/system` → SystemInfoPage
+
+**[server.js](file:///d:/JITU/Ideas and projects/Identity Management/backend/src/server.js)** — All new API routes mounted:
+- `/api/v1/storage`
+- `/api/v1/backups`
+- `/api/v1/snapshots`
+- `/api/v1/recycle-bin`
+
+---
+
+## Files Created
+
+| File | Purpose |
+|------|---------|
+| `backend/src/controllers/storageController.js` | Storage overview + missing files API |
+| `backend/src/controllers/backupController.js` | ZIP export + 2-step restore |
+| `backend/src/controllers/snapshotController.js` | Manual snapshot generation |
+| `backend/src/controllers/recycleBinController.js` | Recycle bin CRUD |
+| `backend/src/routes/storage.js` | Storage routes |
+| `backend/src/routes/backups.js` | Backup routes |
+| `backend/src/routes/snapshots.js` | Snapshot routes |
+| `backend/src/routes/recycleBin.js` | Recycle bin routes |
+| `frontend/src/pages/StoragePage.jsx` | Storage overview UI |
+| `frontend/src/pages/BackupsPage.jsx` | Backups + Snapshots UI |
+| `frontend/src/pages/RecycleBinPage.jsx` | Recycle bin UI |
+| `frontend/src/pages/SystemInfoPage.jsx` | System info UI |
+
+## Files Modified
+
+| File | Change |
+|------|--------|
+| `backend/src/server.js` | Mounted 4 new route groups |
+| `backend/src/models/Client.js` | Added `deletedAt` + TTL index |
+| `backend/package.json` | Added `adm-zip` dependency |
+| `frontend/src/api/index.js` | Added `storageApi`, `backupsApi`, `snapshotsApi`, `recycleBinApi` |
+| `frontend/src/App.jsx` | Added 4 new routes, cleaned duplicate imports |
+| `frontend/src/pages/SettingsPage.jsx` | Added Backups, Recycle Bin, System Info links |

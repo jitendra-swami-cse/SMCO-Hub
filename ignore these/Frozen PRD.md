@@ -1,0 +1,2415 @@
+**# Product Requirements Document (PRD)**
+
+
+
+\# Social Media Client Operations Hub (Internal Local Application)
+
+
+
+\*\*Version:\*\* 1.0
+
+\*\*Status:\*\* Approved for Information Architecture Phase
+
+\*\*Application Type:\*\* Local Internal Operations System
+
+\*\*Primary User:\*\* Single Admin (You)
+
+\*\*Deployment:\*\* Localhost (Not Hosted)
+
+\*\*Expected Scale:\*\* 10–100 Clients
+
+
+
+\---
+
+
+
+\# 1. Product Overview
+
+
+
+\## Purpose
+
+
+
+The Social Media Client Operations Hub is a centralized local application designed to manage all information related to social media clients.
+
+
+
+The application serves as a single source of truth for:
+
+
+
+\* Client information
+
+\* Social media accounts
+
+\* Account credentials
+
+\* Content inventory
+
+\* Media file organization
+
+\* Activity history
+
+\* Follow-ups
+
+\* Client performance tracking
+
+
+
+The application is intended for internal use only and will not be publicly accessible.
+
+
+
+\---
+
+
+
+\# 2. Product Vision
+
+
+
+The goal is to eliminate spreadsheets, scattered folders, notes, and manual tracking by providing a single dashboard where the admin can instantly answer questions such as:
+
+
+
+\* Which clients have Instagram accounts?
+
+\* Which clients still need YouTube channels?
+
+\* Which clients currently have content ready to upload?
+
+\* Which content has been waiting for too long?
+
+\* Which clients are inactive?
+
+\* Which client categories perform best?
+
+\* Which files are missing from storage?
+
+\* Which accounts require attention?
+
+
+
+The system focuses on operational management rather than social media automation.
+
+
+
+\---
+
+
+
+\# 3. Out of Scope
+
+
+
+The following features are explicitly excluded from Version 1:
+
+
+
+\### Social Media Automation
+
+
+
+\* Automatic posting
+
+\* Post scheduling
+
+\* Account creation through APIs
+
+\* Automatic content publishing
+
+
+
+\### Content Creation
+
+
+
+\* AI content generation
+
+\* Caption generation
+
+\* Hashtag generation
+
+\* Graphic creation
+
+
+
+\### Business Operations
+
+
+
+\* Client billing
+
+\* Invoicing
+
+\* Expense tracking
+
+\* Team management
+
+\* Client portal
+
+
+
+\### Cloud Features
+
+
+
+\* SaaS hosting
+
+\* Multi-user access
+
+\* Public login
+
+\* External customer access
+
+
+
+\---
+
+
+
+\# 4. Authentication
+
+
+
+\## Login System
+
+
+
+A simple password gate is used.
+
+
+
+No usernames.
+
+
+
+No email login.
+
+
+
+No role management.
+
+
+
+No JWT authentication.
+
+
+
+No user collection.
+
+
+
+\---
+
+
+
+\### Login Screen
+
+
+
+Fields:
+
+
+
+```text
+
+Password
+
+```
+
+
+
+Action:
+
+
+
+```text
+
+Enter
+
+```
+
+
+
+\---
+
+
+
+\### Password Storage
+
+
+
+Stored in environment variables.
+
+
+
+```env
+
+ADMIN\_PASSWORD=your\_password
+
+```
+
+
+
+Backend validates password against environment value.
+
+
+
+\---
+
+
+
+\# 5. Core Data Structure
+
+
+
+The application revolves around:
+
+
+
+```text
+
+Client
+
+├── Social Accounts
+
+├── Credentials
+
+├── Content
+
+├── Notes
+
+├── Activity History
+
+├── Follow-Ups
+
+├── Ratings
+
+├── Categories
+
+└── Tags
+
+```
+
+
+
+\---
+
+
+
+\# 6. Client Management Module
+
+
+
+\## Client Information
+
+
+
+Each client contains:
+
+
+
+\### Personal Information
+
+
+
+```text
+
+Full Name
+
+Phone Number
+
+WhatsApp Number
+
+Email
+
+Date Of Birth
+
+Address
+
+Notes
+
+```
+
+
+
+\---
+
+
+
+\### Status
+
+
+
+Available statuses:
+
+
+
+```text
+
+Active
+
+Inactive
+
+Closed
+
+Archived
+
+```
+
+
+
+Archived clients remain searchable but are hidden from daily operational views.
+
+
+
+\---
+
+
+
+\### Performance Rating
+
+
+
+Manual score:
+
+
+
+```text
+
+1–10
+
+```
+
+
+
+Optional explanation:
+
+
+
+```text
+
+Rating Note
+
+```
+
+
+
+Example:
+
+
+
+```text
+
+Rating: 8
+
+
+
+Reason:
+
+Provides content consistently.
+
+```
+
+
+
+\---
+
+
+
+\### Category
+
+
+
+Each client belongs to one category.
+
+
+
+Examples:
+
+
+
+```text
+
+Entrepreneur
+
+Teacher
+
+Doctor
+
+Lawyer
+
+Model
+
+Body Builder
+
+Fitness Trainer
+
+Restaurant
+
+Real Estate
+
+Other
+
+```
+
+
+
+Categories are admin-managed.
+
+
+
+\---
+
+
+
+\### Tags
+
+
+
+Clients may have multiple tags.
+
+
+
+Examples:
+
+
+
+```text
+
+VIP
+
+High Priority
+
+Video Focused
+
+Personal Brand
+
+Long-Term Client
+
+Local Business
+
+```
+
+
+
+Tags are admin-managed.
+
+
+
+\---
+
+
+
+\# 7. Social Account Management
+
+
+
+Each client may have multiple social accounts.
+
+
+
+\---
+
+
+
+\## Built-In Platforms
+
+
+
+System-defined platforms:
+
+
+
+```text
+
+Instagram
+
+Facebook
+
+YouTube
+
+Pinterest
+
+LinkedIn
+
+X (Twitter)
+
+Threads
+
+TikTok
+
+Google Business Profile
+
+```
+
+
+
+These cannot be deleted.
+
+
+
+\---
+
+
+
+\## Custom Platforms
+
+
+
+Admin can create custom platforms.
+
+
+
+Examples:
+
+
+
+```text
+
+Telegram
+
+Reddit
+
+Medium
+
+Quora
+
+Discord
+
+WhatsApp Channel
+
+Custom Blog
+
+```
+
+
+
+Custom platforms can be:
+
+
+
+```text
+
+Created
+
+Edited
+
+Archived
+
+```
+
+
+
+\---
+
+
+
+\## Social Account Fields
+
+
+
+```text
+
+Platform
+
+Username
+
+Display Name
+
+Profile URL
+
+Status
+
+Notes
+
+Created Date
+
+Updated Date
+
+```
+
+
+
+\---
+
+
+
+\## Account Status
+
+
+
+```text
+
+Not Created
+
+Created
+
+Verification Pending
+
+Active
+
+Disabled
+
+Suspended
+
+```
+
+
+
+\---
+
+
+
+\# 8. Credential Vault
+
+
+
+Stores credentials for Gmail and social accounts.
+
+
+
+\---
+
+
+
+\## Gmail Credentials
+
+
+
+```text
+
+Email
+
+Password
+
+Recovery Email
+
+Recovery Phone
+
+```
+
+
+
+\---
+
+
+
+\## Platform Credentials
+
+
+
+```text
+
+Username
+
+Password
+
+```
+
+
+
+\---
+
+
+
+\## Security Requirements
+
+
+
+Passwords stored encrypted.
+
+
+
+Passwords masked by default.
+
+
+
+Reveal option available.
+
+
+
+\---
+
+
+
+\# 9. Onboarding Tracker
+
+
+
+Tracks account setup progress.
+
+
+
+Example:
+
+
+
+```text
+
+✓ Gmail Created
+
+✓ Instagram Created
+
+✓ Facebook Created
+
+✓ YouTube Created
+
+☐ Pinterest Created
+
+```
+
+
+
+Progress shown as percentage.
+
+
+
+\---
+
+
+
+\# 10. Content Inventory System
+
+
+
+\## Purpose
+
+
+
+Tracks content supplied by clients.
+
+
+
+The application does not create content.
+
+
+
+It only stores and manages content.
+
+
+
+\---
+
+
+
+\## Content Types
+
+
+
+```text
+
+Post
+
+Reel
+
+Story
+
+Video
+
+Short
+
+Pin
+
+Article
+
+Other
+
+```
+
+
+
+\---
+
+
+
+\## Content Fields
+
+
+
+```text
+
+Title
+
+Description
+
+Client
+
+Platform
+
+Content Type
+
+Status
+
+Received Date
+
+Source
+
+Source Notes
+
+File Path
+
+```
+
+
+
+\---
+
+
+
+\## Content Status
+
+
+
+```text
+
+Received
+
+Ready
+
+Uploaded
+
+Archived
+
+Recycle Bin
+
+```
+
+
+
+\---
+
+
+
+\## Content Source Tracking
+
+
+
+Tracks where content originated.
+
+
+
+Initial source types:
+
+
+
+```text
+
+Client
+
+Admin
+
+Photographer
+
+Video Editor
+
+Agency
+
+Other
+
+```
+
+
+
+Future expansion expected.
+
+
+
+\---
+
+
+
+\# 11. Content Aging System
+
+
+
+Purpose:
+
+
+
+Identify content waiting too long.
+
+
+
+Example:
+
+
+
+```text
+
+Received:
+
+45 Days Ago
+
+
+
+Status:
+
+Ready
+
+```
+
+
+
+Dashboard highlights oldest pending content.
+
+
+
+\---
+
+
+
+\# 12. Platform-Wise Content Inventory
+
+
+
+Each platform displays:
+
+
+
+```text
+
+Ready Content
+
+Uploaded Content
+
+Archived Content
+
+```
+
+
+
+Example:
+
+
+
+```text
+
+Instagram
+
+
+
+Ready: 12
+
+Uploaded: 54
+
+Archived: 8
+
+```
+
+
+
+\---
+
+
+
+\# 13. Client Health Score
+
+
+
+Purpose:
+
+
+
+Provide quick client health visibility.
+
+
+
+Scoring factors may include:
+
+
+
+```text
+
+Client Status
+
+Available Platforms
+
+Recent Activity
+
+Ready Content
+
+Performance Rating
+
+```
+
+
+
+Displayed as:
+
+
+
+```text
+
+85 / 100
+
+```
+
+
+
+\---
+
+
+
+\# 14. Follow-Up Management
+
+
+
+\## Manual Follow-Up System
+
+
+
+No automatic logic.
+
+
+
+Admin manually sets:
+
+
+
+```text
+
+Follow-Up Date
+
+Follow-Up Note
+
+```
+
+
+
+Dashboard displays:
+
+
+
+```text
+
+Today's Follow-Ups
+
+Upcoming Follow-Ups
+
+Overdue Follow-Ups
+
+```
+
+
+
+\---
+
+
+
+\# 15. Notes Timeline
+
+
+
+Instead of one large notes field.
+
+
+
+Notes stored as timeline entries.
+
+
+
+Example:
+
+
+
+```text
+
+May 12
+
+Client wants more fitness-focused content.
+
+
+
+May 18
+
+Requested YouTube setup.
+
+```
+
+
+
+\---
+
+
+
+\# 16. Activity Timeline
+
+
+
+Automatically records important actions.
+
+
+
+Examples:
+
+
+
+```text
+
+Client Created
+
+Instagram Added
+
+Content Uploaded
+
+Status Changed
+
+Rating Updated
+
+```
+
+
+
+\---
+
+
+
+\# 17. Home Dashboard
+
+
+
+The primary operational workspace.
+
+
+
+\---
+
+
+
+\## Summary Cards
+
+
+
+```text
+
+Total Clients
+
+Active Clients
+
+Inactive Clients
+
+Closed Clients
+
+Archived Clients
+
+```
+
+
+
+\---
+
+
+
+\## Platform Summary
+
+
+
+Displays account counts for every platform.
+
+
+
+Example:
+
+
+
+```text
+
+Instagram Accounts: 24
+
+YouTube Channels: 18
+
+Facebook Accounts: 20
+
+```
+
+
+
+\---
+
+
+
+\## Client Overview Table
+
+
+
+Columns:
+
+
+
+```text
+
+Client
+
+Category
+
+Status
+
+Instagram
+
+YouTube
+
+Ready Content
+
+Uploaded Content
+
+Rating
+
+Health Score
+
+```
+
+
+
+\---
+
+
+
+\# 18. Missing Things Dashboard
+
+
+
+Highlights missing operational items.
+
+
+
+Examples:
+
+
+
+```text
+
+Missing Gmail
+
+Missing Instagram
+
+Missing YouTube
+
+Missing Category
+
+Missing Rating
+
+Missing Content
+
+```
+
+
+
+\---
+
+
+
+\# 19. Platform Completion Matrix
+
+
+
+Visual matrix:
+
+
+
+| Client | Gmail | Instagram | Facebook | YouTube | Pinterest |
+
+| ------ | ----- | --------- | -------- | ------- | --------- |
+
+| Rahul  | ✓     | ✓         | ✓        | ✓       | ✕         |
+
+
+
+Provides quick setup visibility.
+
+
+
+\---
+
+
+
+\# 20. Platform Dashboards
+
+
+
+Each platform has a dedicated dashboard.
+
+
+
+Examples:
+
+
+
+```text
+
+Instagram Dashboard
+
+YouTube Dashboard
+
+Facebook Dashboard
+
+```
+
+
+
+\---
+
+
+
+\## Platform Summary
+
+
+
+Displays:
+
+
+
+```text
+
+Clients Using Platform
+
+Clients Missing Platform
+
+Ready Content
+
+Uploaded Content
+
+Verification Pending
+
+```
+
+
+
+\---
+
+
+
+\## Platform Client Table
+
+
+
+Displays platform-specific client data.
+
+
+
+\---
+
+
+
+\# 21. Global Search
+
+
+
+Searches:
+
+
+
+```text
+
+Client Name
+
+Phone Number
+
+Email
+
+Username
+
+Platform Username
+
+Category
+
+Tags
+
+```
+
+
+
+Always available in navbar.
+
+
+
+\---
+
+
+
+\# 22. Quick Actions
+
+
+
+Available throughout the application.
+
+
+
+Examples:
+
+
+
+```text
+
+Add Client
+
+Add Content
+
+Add Platform
+
+Add Note
+
+Add Follow-Up
+
+Update Status
+
+```
+
+
+
+\---
+
+
+
+\# 23. Last Activity Tracker
+
+
+
+For every client:
+
+
+
+```text
+
+Last Content Received
+
+Last Upload
+
+Last Note
+
+Last Account Update
+
+```
+
+
+
+\---
+
+
+
+\# 24. Monthly Snapshot
+
+
+
+Monthly operational reporting.
+
+
+
+Example:
+
+
+
+```text
+
+Month
+
+
+
+Content Received
+
+Content Uploaded
+
+
+
+Instagram Posts
+
+YouTube Videos
+
+Facebook Posts
+
+
+
+Performance Rating
+
+```
+
+
+
+Not analytics-based.
+
+
+
+\---
+
+
+
+\# 25. Storage System
+
+
+
+\## Storage Strategy
+
+
+
+Media files stored on filesystem.
+
+
+
+Database stores metadata only.
+
+
+
+\---
+
+
+
+\## Folder Structure
+
+
+
+```text
+
+Storage
+
+└── Clients
+
+&#x20;   ├── CL-0001\_Rahul-Sharma
+
+&#x20;   │   ├── Instagram
+
+&#x20;   │   │   ├── Ready
+
+&#x20;   │   │   ├── Uploaded
+
+&#x20;   │   │   └── Archive
+
+&#x20;   │   └── YouTube
+
+&#x20;   │
+
+&#x20;   └── CL-0002\_Priya-Singh
+
+```
+
+
+
+\---
+
+
+
+\## File Naming Convention
+
+
+
+Example:
+
+
+
+```text
+
+20260610\_INST\_REEL\_SummerFitness.mp4
+
+
+
+20260615\_INST\_POST\_GymOffer.jpg
+
+
+
+20260620\_YT\_VIDEO\_WorkoutTips.mp4
+
+```
+
+
+
+Names must remain human-readable.
+
+
+
+\---
+
+
+
+\## Automatic File Movement
+
+
+
+When content status changes:
+
+
+
+```text
+
+Ready
+
+→ Uploaded
+
+```
+
+
+
+File moves automatically.
+
+
+
+\---
+
+
+
+\# 26. Storage Overview Dashboard
+
+
+
+Displays:
+
+
+
+```text
+
+Total Files
+
+Storage Used
+
+Ready Files
+
+Uploaded Files
+
+Archived Files
+
+```
+
+
+
+\---
+
+
+
+\## Platform Breakdown
+
+
+
+Shows:
+
+
+
+```text
+
+Platform
+
+File Count
+
+Storage Usage
+
+```
+
+
+
+\---
+
+
+
+\## Largest Clients
+
+
+
+Shows:
+
+
+
+```text
+
+Client
+
+Storage Used
+
+```
+
+
+
+\---
+
+
+
+\# 27. Missing Files Report
+
+
+
+Detects file references that no longer exist.
+
+
+
+Displays:
+
+
+
+```text
+
+Client
+
+Platform
+
+Content
+
+Missing File Path
+
+```
+
+
+
+Actions:
+
+
+
+```text
+
+Locate File
+
+Replace File
+
+Remove Reference
+
+```
+
+
+
+\---
+
+
+
+\# 28. Recycle Bin
+
+
+
+Content deletion is soft-delete.
+
+
+
+\---
+
+
+
+\## Workflow
+
+
+
+```text
+
+Delete Content
+
+→ Recycle Bin
+
+→ Auto Delete After 30 Days
+
+```
+
+
+
+\---
+
+
+
+\## Recycle Bin Actions
+
+
+
+```text
+
+Restore
+
+Permanent Delete
+
+```
+
+
+
+\---
+
+
+
+\# 29. Backup \& Restore
+
+
+
+\## Export
+
+
+
+Supports:
+
+
+
+```text
+
+JSON Export
+
+Excel Export
+
+```
+
+
+
+\---
+
+
+
+\## Import
+
+
+
+Supports:
+
+
+
+```text
+
+JSON Restore
+
+```
+
+
+
+\---
+
+
+
+\## Backup Scope
+
+
+
+Included:
+
+
+
+```text
+
+Clients
+
+Categories
+
+Tags
+
+Accounts
+
+Credentials
+
+Content Metadata
+
+Notes
+
+Activities
+
+Settings
+
+```
+
+
+
+Excluded:
+
+
+
+```text
+
+Media Files
+
+Images
+
+Videos
+
+Reels
+
+Shorts
+
+```
+
+
+
+\---
+
+
+
+\# 30. Technical Constraints
+
+
+
+\## Deployment
+
+
+
+```text
+
+Localhost Only
+
+```
+
+
+
+\---
+
+
+
+\## Expected Users
+
+
+
+```text
+
+1 Admin
+
+```
+
+
+
+\---
+
+
+
+\## Expected Clients
+
+
+
+```text
+
+10–100
+
+```
+
+
+
+\---
+
+
+
+\## Technology Direction (Tentative)
+
+
+
+Frontend:
+
+
+
+\* React
+
+\* TypeScript
+
+\* Vite
+
+\* Tailwind CSS
+
+\* shadcn/ui
+
+\* Zustand
+
+\* TanStack Query
+
+
+
+Backend:
+
+
+
+\* Node.js
+
+\* Express
+
+\* TypeScript
+
+
+
+Database:
+
+
+
+\* MongoDB
+
+\* Mongoose
+
+
+
+\---
+
+
+
+\# 31. UI/UX Direction
+
+
+
+Primary inspirations:
+
+
+
+\* \[Postiz](https://github.com/gitroomhq/postiz-app?utm\_source=chatgpt.com)
+
+\* \[Linear](https://linear.app?utm\_source=chatgpt.com)
+
+\* \[Attio](https://attio.com?utm\_source=chatgpt.com)
+
+\* \[Airtable](https://airtable.com?utm\_source=chatgpt.com)
+
+
+
+Design principles:
+
+
+
+\* Dark-first interface
+
+\* Fast navigation
+
+\* Data-dense tables
+
+\* Minimal clicks
+
+\* Operational visibility
+
+\* Dashboard-centric workflows
+
+\* Human-readable storage organization
+
+
+
+\---
+
+
+
+\# PRD Status
+
+
+
+\*\*Status:\*\* Frozen for Version 1.0
+
+
+
+No additional feature brainstorming is recommended at this stage. The next deliverable should be the \*\*Information Architecture (IA)\*\*, where we define the complete navigation structure, page hierarchy, layouts, widgets, tables, modals, and user flows.
+
+
+
+---
+
+# Final Content Architecture (v1)
+
+## Definition
+
+> A Content Record represents one publishable social media post.
+
+Examples:
+
+### Instagram Post
+
+```text
+1 Content Record
+1 Image
+```
+
+### Instagram Carousel
+
+```text
+1 Content Record
+5 Images
+```
+
+### Instagram Reel
+
+```text
+1 Content Record
+1 Video
+```
+
+### YouTube Video
+
+```text
+1 Content Record
+1 Video
+```
+
+### Text Post
+
+```text
+1 Content Record
+0 Media Files
+```
+
+---
+
+# Content Fields
+
+## Ownership
+
+```text
+Client (Reference)
+```
+
+* Required
+* Clickable
+* Opens client page
+
+---
+
+## Title
+
+```text
+Summer Fitness Offer
+```
+
+* Optional but recommended
+* Human-readable identifier
+
+---
+
+## Platforms
+
+```json
+[
+  "Instagram",
+  "Facebook",
+  "Threads"
+]
+```
+
+* One or many platforms
+* Same content can be published on multiple platforms
+
+---
+
+## Content Type
+
+```text
+Image
+Carousel
+Reel
+Video
+Text
+Other
+```
+
+---
+
+## Media Files
+
+```text
+1..N Files
+```
+
+Examples:
+
+```text
+Image → 1 image
+
+Carousel → multiple images
+
+Reel → 1 video
+
+Video → 1 video
+
+Text → no files
+```
+
+---
+
+## Caption
+
+```text
+Text Content
+```
+
+Optional.
+
+---
+
+## Hashtags
+
+Stored as array.
+
+```json
+[
+  "#fitness",
+  "#gym",
+  "#workout"
+]
+```
+
+---
+
+## Source
+
+Placeholder for future architecture.
+
+Current structure:
+
+```text
+Source
+Source Notes
+```
+
+We'll refine later.
+
+---
+
+## Notes
+
+Operational notes.
+
+Example:
+
+```text
+Client requested posting on weekend.
+```
+
+---
+
+# Approval Workflow
+
+## Approval State
+
+```text
+Received
+Approved
+Uploaded
+Archived
+Recycle Bin
+```
+
+Explanation:
+
+### Received
+
+Content received but not reviewed.
+
+---
+
+### Approved
+
+Reviewed and ready to publish.
+
+---
+
+### Uploaded
+
+Already posted.
+
+---
+
+### Archived
+
+Kept for historical purposes.
+
+---
+
+### Recycle Bin
+
+Soft deleted.
+
+Auto-delete after 30 days.
+
+---
+
+# Platform-Specific Publishing
+
+One content may be published on multiple platforms.
+
+Example:
+
+```text
+Summer Fitness Reel
+```
+
+Platforms:
+
+```text
+Instagram
+Facebook
+Threads
+```
+
+Each platform can have independent publishing data.
+
+---
+
+## Platform Publishing Metadata
+
+Example structure:
+
+```json
+{
+  "Instagram": {
+    "uploadedDate": "2026-06-10",
+    "postUrl": "..."
+  },
+
+  "Facebook": {
+    "uploadedDate": "2026-06-15",
+    "postUrl": "..."
+  },
+
+  "Threads": {
+    "uploadedDate": null,
+    "postUrl": null
+  }
+}
+```
+
+This solves the multi-platform problem cleanly.
+
+---
+
+# Date Fields
+
+## Content-Level Dates
+
+```text
+Received Date
+Approved Date
+Created At
+Updated At
+```
+
+---
+
+## Platform-Level Dates
+
+Stored per platform.
+
+```text
+Upload Date
+```
+
+because each platform may be posted at a different time.
+
+---
+
+# Editability Rules
+
+All content remains editable.
+
+Even after upload.
+
+Editable fields include:
+
+```text
+Title
+Caption
+Hashtags
+Notes
+URLs
+Files
+Platforms
+```
+
+This matches real-world workflows.
+
+---
+
+# Multiple Posting Support
+
+Allowed.
+
+Example:
+
+```text
+June → Instagram
+
+September → Instagram again
+```
+
+However, I would not build repost-history tracking in V1.
+
+For V1:
+
+* Update upload metadata manually if reposted.
+* Keep the model simple.
+
+If later you need detailed posting history, we can add it without breaking the design.
+
+---
