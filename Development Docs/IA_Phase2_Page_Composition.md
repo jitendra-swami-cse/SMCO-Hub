@@ -4,9 +4,8 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 
 ---
 
-## Module 1: Authentication
-### 1. Login Screen
-- **Purpose:** Secure entry to the app.
+### 1. Password Gate
+- **Purpose:** Simple entry gate for local single admin.
 - **Sections:** App Logo/Title, Password Input Field.
 - **Actions:** Submit/Login.
 
@@ -16,7 +15,6 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 ### 2. Home Dashboard
 - **Purpose:** Primary daily workspace and overview.
 - **Widgets (Top Row):** Total Clients, Active Clients, Ready Content, Uploaded Content, Storage Used.
-- **Widget (Sidebar/Secondary):** Missing Things (clickable counts for Missing Gmail, Missing Instagram, Missing Content, etc.).
 - **Widget:** Platform Completion Matrix (Grid showing Client vs Platforms with checkmarks).
 - **Table:** Client Overview Table (Columns: Client, Category, Tags, Status, Ready Content, Uploaded Content, Rating, Health Score, Last Activity).
 - **Actions:** Quick actions on table rows (View Client, Add Content).
@@ -47,24 +45,19 @@ This document defines **what sections, widgets, tables, and actions appear on ea
     - Storage Usage.
     - Recent Activity.
   - **Accounts:** 
-    - Table (Platform, Username, Display Name, Profile URL, Status, Notes, Last Updated).
+    - Table (Platform, Username, Display Name, Profile URL, Status, Notes, Credentials, Last Updated).
     - "Add Account" button.
   - **Content:** 
     - Table (Content Title, Platform, Status, Source, Received Date).
     - "Add Content" button, Filters.
-  - **Credentials:** 
-    - Gmail details section.
-    - Social Credentials table (Masked passwords + Reveal button).
-    - "Edit Credentials" button.
   - **Notes:** Timeline-style list of notes, "Add Note" input area.
   - **Timeline:** Log of all system activities specific to this client.
 
-### 6a. Add / Edit Account (Composition definition)
-- **Form Fields:** Platform (dropdown), Username, Display Name, Profile URL, Status, Notes, Credentials Link.
+- **Form Fields:** Platform (dropdown), Username, Display Name, Profile URL, Status, Notes.
 
 ### 7. Archived Clients
 - **Table:** Similar to Clients List but only for archived clients.
-- **Actions:** Restore to Active.
+- **Actions:** Restore to Previous Status.
 
 ---
 
@@ -92,7 +85,7 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 ### 11. Add / 12. Edit Content (Page)
 - **Form Sections:**
   - Core: Client (dropdown), Title, Content Type (dropdown).
-  - Workflow & Dates: Status (Received, Approved, Uploaded, Archived, Recycle Bin), Received Date, Approved Date.
+  - Workflow & Dates: Status (Received, Approved, Uploaded, Recycle Bin), Received Date.
   - Publishing: Platforms (multi-select).
   - Media: Drag & drop file upload area (or file list if editing).
   - Details: Caption (textarea), Hashtags (input), Source.
@@ -102,8 +95,8 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 ### 13. Content Details
 - **Header:** Title, Status badge, Client Name. Quick Actions (Edit, Move to Recycle Bin).
 - **Sections:**
-  - Media Preview (Images/Video player).
-  - Metadata (Type, Received Date, Approved Date, Source).
+  - Media Files List (Upload, View, Download, Delete).
+  - Metadata (Type, Received Date, Source).
   - File Metadata (File Name, File Size, Storage Path, Created Date).
   - Platform Publishing Matrix (Table: Platform | Scheduled | Uploaded | URL).
   - Caption & Hashtags.
@@ -176,16 +169,12 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 
 ### 27. Backup & Restore
 - **Sections:** 
-  - Export: JSON Export button, Excel Export button.
-  - Import: File upload area for JSON restore.
+  - Export: ZIP Backup Export button.
+  - Import: File upload area for ZIP restore.
 
-### 28. Storage Settings
-- **Form:** Storage Location path (default: `./storage`), Recycle Bin Duration (default: 30 days).
 
-### 29. Security
-- **Form:** Current Password, New Password, Confirm Password.
 
----
+
 
 ## Module 9: Search
 ### 30. Search Results
@@ -193,5 +182,4 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 - **Navigation Metadata:** Each result clearly indicates its type (e.g., Client, Content, Note, Account) with an appropriate icon or badge.
   - Matching Clients
   - Matching Content
-  - Matching Notes
   - Matching Accounts
