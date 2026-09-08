@@ -2,7 +2,7 @@
 
 Welcome to the **Social Media Content Operations Hub (SMCO-Hub)**! 
 
-Whether you're a new Admin, an Agency Manager, or an Operations Lead, this guide will walk you through exactly **how** to use every feature in the system to streamline your social media pipeline.
+Whether you're setting this up for the first time or maintaining daily operations, this guide will walk you through exactly **how** to use every feature in the system to streamline your manual social media pipeline.
 
 ---
 
@@ -33,7 +33,7 @@ SMCO-Hub is a local-first social media operations system.
 
 ## 🎨 1. Dashboard & Navigation Center
 
-The Dashboard is your morning command center. It gives you a real-time snapshot of your agency's health and operational backlog.
+The Dashboard is your morning command center. It gives you a real-time snapshot of your operational backlog.
 
 ### **Reading the KPIs**
 At the very top of the Dashboard, you'll see KPI Cards. These numbers are actionable:
@@ -95,7 +95,7 @@ graph LR
 
 ### **How to Add Social Media Accounts**
 Once a client is created, you must tell the system which platforms they are active on.
-1. Click on the Client's card to open their **Client Details Page**.
+1. Click on the Client's row in the table to open their **Client Details Page**.
 2. Navigate to the **Accounts section** in the main window.
 3. Click **Add Account**.
 4. Select the **Platform** (e.g., Instagram).
@@ -104,7 +104,7 @@ Once a client is created, you must tell the system which platforms they are acti
 7. Click **Save Account**.
 
 ### **How to Archive a Client**
-When an agency contract ends, do not delete the client! Instead, archive them.
+When an agreement ends, do not delete the client! Instead, archive them.
 1. Open the **Client Details Page**.
 2. Click the **Actions (`...`)** menu.
 3. Select **Archive Client**. 
@@ -149,7 +149,7 @@ stateDiagram-v2
 1. Open the **Content Details Page**.
 2. Scroll to the **Media Files section**.
 3. **Drag & Drop** your files directly into the upload zone, or click to browse.
-4. The files will upload and appear in the gallery.
+4. Select and upload your files. They will appear in the list. Click delete to remove any file.
 
 ### **How to Schedule and Publish**
 1. Scroll to the **Platforms section** on the Content Details Page.
@@ -162,7 +162,7 @@ stateDiagram-v2
 
 ## 📅 5. Timeline & Scheduling
 
-The Timeline is a dedicated module for viewing your agency's entire upcoming calendar.
+The Timeline is a dedicated module for viewing your entire upcoming calendar.
 
 * **Upcoming Posts**: See exactly what is scheduled to go live today, tomorrow, and next week.
 * **Missed Posts**: Easily spot content that missed its scheduled window.
@@ -191,7 +191,7 @@ storage/
 
 ### **Fixing "Missing File" Errors**
 If someone bypasses the app and deletes a video file directly from the computer's hard drive, the database will throw an error.
-1. Navigate to **Settings > Storage**.
+1. Navigate to the **Storage Overview page**.
 2. Look at the **Missing Files** panel.
 3. The system will list database records pointing to files that no longer exist on disk.
 4. Click **"Remove Reference"**. This safely tells the database to stop looking for the deleted file, preventing crashes.
@@ -203,7 +203,7 @@ If someone bypasses the app and deletes a video file directly from the computer'
 SMCO-Hub uses a "Soft Delete" mechanism to prevent disastrous accidental clicks.
 
 ### **How to Recover Deleted Items**
-1. Navigate to the **Recycle Bin** (bottom of the left sidebar).
+1. Navigate to **Settings > Recycle Bin**.
 2. Click the green **Restore** icon next to an item to instantly return it to the Content board.
 
 ### **How to Hard Delete (Empty Trash)**
@@ -215,7 +215,7 @@ SMCO-Hub uses a "Soft Delete" mechanism to prevent disastrous accidental clicks.
 
 ## 🔐 8. Backups & Disaster Recovery
 
-Your agency's data is critical. SMCO-Hub makes it incredibly simple to export and restore everything.
+Your data is critical. SMCO-Hub makes it incredibly simple to export and restore everything locally.
 
 ### **How to Generate a Backup**
 1. Navigate to **Settings > System & Data**.
@@ -231,16 +231,16 @@ Your agency's data is critical. SMCO-Hub makes it incredibly simple to export an
 1. Navigate to **Settings > System & Data**.
 2. Click **Restore from Backup** and upload your `backup.zip` file.
 3. **Review Summary**: The system will parse the ZIP and show you what it contains (e.g., "40 Clients found").
-4. **Confirm**: Type `RESTORE` to execute the database overwrite.
+4. **Confirm**: Click Confirm to execute the database overwrite.
 
 ---
 
 ## 📈 9. Monthly Snapshots
 
-Snapshots freeze your agency's numbers in time so you can track growth.
+Snapshots freeze your numbers in time so you can track growth.
 
 ### **How to Track Growth**
 1. Navigate to **Settings > System & Data**.
 2. Click **Generate Snapshot**. The system records your Active Client count, Content count, and Storage Used for the current month.
 3. You can click this button multiple times in a month; it will simply **upsert** (update) the current month's record rather than creating duplicates.
-4. Compare previous months to prove agency growth to stakeholders.
+4. Compare previous months to prove historical growth.

@@ -14,7 +14,7 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 ## Module 2: Home
 ### 2. Home Dashboard
 - **Purpose:** Primary daily workspace and overview.
-- **Widgets (Top Row):** Total Clients, Active Clients, Ready Content, Uploaded Content, Storage Used.
+- **Widgets (Top Row):** Active Clients, Ready Content, Scheduled This Week, Missed Posts, Storage Used.
 - **Widget:** Platform Completion Matrix (Grid showing Client vs Platforms with checkmarks).
 - **Table:** Client Overview Table (Columns: Client, Category, Tags, Status, Ready Content, Uploaded Content, Rating, Health Score, Last Activity).
 - **Actions:** Quick actions on table rows (View Client, Add Content).
@@ -30,7 +30,7 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 - **Form Sections:** 
   - Personal Info (Name, Phone, WhatsApp, Email, DOB, Address).
   - Classification (Category dropdown, Tags multi-select).
-  - Status (Active/Inactive/etc.).
+  - Status (Active/Inactive/Closed).
   - Notes (Initial notes).
 - **Actions:** Save, Cancel.
 
@@ -51,7 +51,6 @@ This document defines **what sections, widgets, tables, and actions appear on ea
     - Table (Content Title, Platform, Status, Source, Received Date).
     - "Add Content" button, Filters.
   - **Notes:** Timeline-style list of notes, "Add Note" input area.
-  - **Timeline:** Log of all system activities specific to this client.
 
 - **Form Fields:** Platform (dropdown), Username, Display Name, Profile URL, Status, Notes.
 
@@ -72,7 +71,7 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 - **Summary Row:** Total Clients, Accounts Created, Missing Accounts, Ready Content, Uploaded Content.
 - **Table 1:** Platform Client Table (Client, Username, Status, Ready, Uploaded).
 - **Table 2:** Recent Content Table (Title, Client, Status, Scheduled Date).
-- **Insights Widget:** Top Clients, Most Ready Content, Oldest Pending Content.
+- **Insights Widget:** (Future Enhancement)
 
 ---
 
@@ -85,7 +84,7 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 ### 11. Add / 12. Edit Content (Page)
 - **Form Sections:**
   - Core: Client (dropdown), Title, Content Type (dropdown).
-  - Workflow & Dates: Status (Received, Approved, Uploaded, Recycle Bin), Received Date.
+  - Workflow & Dates: Global Status (Received, Approved, Uploaded, Recycle Bin). Platform Statuses (Pending, Approved, Scheduled, Uploaded).
   - Publishing: Platforms (multi-select).
   - Media: Drag & drop file upload area (or file list if editing).
   - Details: Caption (textarea), Hashtags (input), Source.
@@ -112,7 +111,7 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 
 ### 16. Monthly Snapshots
 - **Header:** Month/Year Selector.
-- **Report Display:** Content Received, Content Uploaded, Post count per platform, Average Performance Rating.
+- **Report Display:** Active Clients, Total Content, Storage Used.
 
 ---
 
@@ -125,7 +124,7 @@ This document defines **what sections, widgets, tables, and actions appear on ea
 
 ### 18. Missing Files
 - **Table:** Client, Platform, Content Title, Missing File Path.
-- **Bulk Actions:** Remove References, Mark Ignored.
+- **Bulk Actions:** Remove References.
 - **Actions:** Locate (prompt for new file), Replace.
 
 ---
@@ -183,3 +182,4 @@ This document defines **what sections, widgets, tables, and actions appear on ea
   - Matching Clients
   - Matching Content
   - Matching Accounts
+- **Metadata:** Result count per group.

@@ -27,6 +27,13 @@ SMCO-Hub uses a separated frontend (Vite/React) and backend (Node/Express).
    * Start the frontend: `npm run dev`.
 4. Open your browser to `http://localhost:5173` to access the application.
 
+### ⚡ 1-Click Startup (Windows)
+Alternatively, double-click `start.bat` in the root directory (or run `start.bat` in terminal). It will:
+1. Verify Node.js and auto-install any missing dependencies.
+2. Launch a single unified console streaming both **Backend (Cyan)** and **Frontend (Magenta)** logs simultaneously.
+3. Automatically open `http://localhost:5173` in Google Chrome.
+4. Pressing `Ctrl + C` in that terminal cleanly shuts down both servers.
+
 ---
 
 ## 🔄 2. Local Upgrade Guide

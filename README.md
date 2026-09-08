@@ -49,9 +49,18 @@ Before running the project locally, ensure you have the following installed on y
 
 ---
 
-## 🚀 Local Development Setup
+## 🚀 Quick Start (1-Click on Windows)
+Simply double-click [`start.bat`](file:///d:/JITU/Personnal%20Backup/Ideas%20and%20projects/Identity%20Management/start.bat) in the project root (or run `.\start.bat` in your terminal). It will:
+- Check for Node.js and auto-install missing npm packages.
+- Start a single unified terminal window streaming live logs for both **Backend (Cyan)** and **Frontend (Magenta)**.
+- Automatically open `http://localhost:5173` in Google Chrome.
+- Allow stopping both servers cleanly at any time by pressing `Ctrl + C`.
 
-Because the application is split into a dedicated frontend and backend, you will need to start two separate terminal windows to run the app.
+---
+
+## 🛠️ Manual Local Development Setup
+
+Because the application is split into a dedicated frontend and backend, you can also start two separate terminal windows to run the app manually.
 
 ### Step 1: Clone the Repository
 Open your terminal and navigate to the root directory of the project:
